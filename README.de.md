@@ -311,6 +311,20 @@ ghcr.io/bleriotwafo/kubernetes-deployment-lab-backend:latest
 ghcr.io/bleriotwafo/kubernetes-deployment-lab-frontend:latest
 ```
 
+## Screenshots
+
+### Kubernetes Frontend
+
+![Kubernetes frontend](docs/screenshots/frontend-kubernetes.png)
+
+### Kubernetes Resources
+
+![kubectl get all](docs/screenshots/kubectl-get-all.png)
+
+### GitHub Actions Pipeline
+
+![GitHub Actions success](docs/screenshots/github-actions-success.png)
+
 ---
 
 ## Was dieses Projekt zeigt
