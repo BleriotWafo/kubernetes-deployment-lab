@@ -187,7 +187,7 @@ onMounted(() => {
     </section>
 
     <footer class="footer">
-      © {{ currentYear }} Bleriot Wafo — Kubernetes Deployment Lab
+      © {{ currentYear }} Bleriot Wafo, Kubernetes Deployment Lab
     </footer>
   </main>
 </template>
