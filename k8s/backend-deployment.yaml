@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: kubernetes-deployment-lab-backend:latest
+          image: ghcr.io/bleriotwafo/kubernetes-deployment-lab-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000

@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: kubernetes-deployment-lab-frontend:latest
+          image: ghcr.io/bleriotwafo/kubernetes-deployment-lab-frontend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
