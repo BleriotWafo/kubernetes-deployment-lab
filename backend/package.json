@@ -1,0 +1,28 @@
+{
+  "name": "kubernetes-deployment-lab-backend",
+  "version": "1.0.0",
+  "description": "Backend API for a Kubernetes portfolio deployment lab.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "docker",
+    "kubernetes",
+    "devops",
+    "portfolio"
+  ],
+  "author": "Bleriot Wafo",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0"
+  }
+}

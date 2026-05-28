@@ -1,0 +1,47 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: k8s-lab-backend
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      APP_NAME: Kubernetes Deployment Lab API
+      APP_VERSION: 1.0.0
+      APP_ENVIRONMENT: docker
+    ports:
+      - "4000:4000"
+    networks:
+      - k8s-lab-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "const http=require('http');const req=http.get('http://127.0.0.1:4000/health',(res)=>{process.exit(res.statusCode===200?0:1)});req.on('error',()=>process.exit(1));req.setTimeout(3000,()=>{req.destroy();process.exit(1)});"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ""
+    container_name: k8s-lab-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    networks:
+      - k8s-lab-network
+
+networks:
+  k8s-lab-network:
+    driver: bridge

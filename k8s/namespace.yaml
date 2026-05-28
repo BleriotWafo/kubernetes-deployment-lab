@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: portfolio-k8s
+  labels:
+    name: portfolio-k8s
+    project: kubernetes-deployment-lab

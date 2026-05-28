@@ -1,0 +1,71 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  BACKEND_IMAGE_NAME: bleriotwafo/kubernetes-deployment-lab-backend
+  FRONTEND_IMAGE_NAME: bleriotwafo/kubernetes-deployment-lab-frontend
+
+jobs:
+  build-and-push:
+    name: Build and Push Backend and Frontend Images
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build backend image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.title=kubernetes-deployment-lab-backend
+            org.opencontainers.image.description=Backend API for Kubernetes Deployment Lab
+            org.opencontainers.image.source=https://github.com/BleriotWafo/kubernetes-deployment-lab
+            org.opencontainers.image.version=${{ github.sha }}
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          build-args: |
+            VITE_API_BASE_URL=
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.title=kubernetes-deployment-lab-frontend
+            org.opencontainers.image.description=Frontend UI for Kubernetes Deployment Lab
+            org.opencontainers.image.source=https://github.com/BleriotWafo/kubernetes-deployment-lab
+            org.opencontainers.image.version=${{ github.sha }}
